@@ -1,0 +1,47 @@
+#Thomas Hickey
+#ECE 404
+#4/19/2016
+#HW12
+
+
+
+PATH=/usr/local/lib/mh:$PATH
+MAILDIR=$HOME/Mail
+LOGFILE=$HOME/Mail/logfile
+SENDMAIL=/usr/sbin/sendmail
+#VERBOSE=1
+VERBOSE=0
+EOL="
+"
+LOG="$EOL$EOL$EOL"
+LOG="New message log:$EOL"
+LOG=`perl GET_MESSAGE_INDEX`
+LOG="$EOL"
+
+#Homework 12
+#If the e-mail has multiple entries in the "From:" header, place the email in /dev/null
+:0H :
+* ^From.*
+* ^From.*
+/dev/null
+
+#Recipe 2
+#If the "Subject:" header contains any of the following strings, place email in /dev/null
+:0H :
+* ^Subject.*diploma
+* ^Subject.*degree
+* ^Subject.*ills
+* ^Subject.*buy
+* ^Subject.*hostway
+/dev/null
+
+#Recipe 3
+:0B :
+* ^Content-Type: text/html
+* charset="?windows-1250"?
+junkMailCompound
+
+#Recipe 4
+:0B :
+* charset="?utf-8"?
+/dev/null
